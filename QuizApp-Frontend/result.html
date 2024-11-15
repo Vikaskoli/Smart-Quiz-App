@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <title>Quiz Result</title>
+    <style>
+        /* Center page content */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        /* Result container styling */
+        .result-container {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            width: 90%;
+            max-width: 360px;
+            transition: transform 0.3s ease;
+        }
+        /* Heading styling */
+        h1 {
+            margin: 0;
+            padding-bottom: 8px;
+            font-size: 24px;
+            color: #333;
+        }
+        /* Score text */
+        .score {
+            font-size: 22px;
+            font-weight: 700;
+            color: #4CAF50;
+            margin: 10px 0;
+        }
+        /* Feedback message styling */
+        #feedback {
+            font-size: 16px;
+            color: #555;
+            margin: 15px 0;
+        }
+        /* Button styling */
+        .button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: #FF5A5A;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #ff4444;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Your Quiz Result</h1>
+        <div class="score" id="score"></div>
+        <p id="feedback"></p>
+        <button class="button" onclick="window.location.href='index.html'">Go Back</button>
+    </div>
+
+    <script>
+        function displayResult() {
+            // Retrieve the results object from localStorage
+            const results = JSON.parse(localStorage.getItem('quizResults'));
+    
+            const scoreElement = document.getElementById('score');
+            const feedbackElement = document.getElementById('feedback');
+    
+            if (results) {
+                // Display the score and total questions
+                scoreElement.innerText = `You scored ${results.score} points, answering ${results.correctAnswers} out of ${results.totalQuestions} questions correctly.`;
+    
+                // Calculate the percentage and give feedback
+                const percentage = results.percentage;
+                if (percentage >= 80) {
+                    feedbackElement.innerText = 'Excellent work! Keep it up!';
+                } else if (percentage >= 50) {
+                    feedbackElement.innerText = 'Good job! You can do even better!';
+                } else {
+                    feedbackElement.innerText = 'Don’t give up! Try again!';
+                }
+                
+                // Clear the results from localStorage (Optional)
+                localStorage.removeItem('quizResults');
+            } else {
+                scoreElement.innerText = 'No score available.';
+            }
+        }
+    
+        // Call the displayResult function when the page loads
+        window.onload = displayResult;
+    </script>
+    
+</body>
+</html>
